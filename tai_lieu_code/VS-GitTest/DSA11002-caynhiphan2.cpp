@@ -1,0 +1,64 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+bool isOP(char c)
+{
+    switch (c)
+        case '+':
+        case '-':
+        case '/':
+        case '*':
+            return true;
+    return false;
+}
+ll tinh(ll a, ll b, char op)
+{
+    if (op == '+') return a + b;
+    if (op == '-') return a - b;
+    if (op == '*') return a * b;
+    if (op == '/') return a / b;
+}
+int fmid(string s)
+{
+    queue <ll> st;
+    int i = s.length() - 1;
+    while (i >= 0)
+    {
+        string so = "";
+        while (i >= 0 && s[i] != ' ' && !isOP(s[i]))
+        {
+            so = s[i] + so;
+            i--;
+        }
+        if (i >= 0 && s[i] == ' ') 
+        {
+            i--;
+            if (so.length() > 0) st.push(stoll(so));
+        }
+        if (i >= 0 && isOP(s[i]))
+        {
+            ll s1 = st.front();
+            st.pop();
+            ll s2 = st.front();
+            st.pop();
+            st.push(tinh(s2, s1, s[i]));
+            i--;
+        }
+    }
+    return st.front();
+}
+void solve()
+{
+    int so;
+    string s;
+    cin >> so;
+    cin.ignore();
+    getline(cin, s);
+    cout << fmid(s) << endl;
+}
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--) solve();
+}
